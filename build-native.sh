@@ -16,6 +16,7 @@ _CMakeSystemProcessor=
 _CMakeCCompiler=
 _CMakeCxxCompiler=
 _CMakeFindRootPathMode=
+_VcpkgTriplet=
 
 while :; do
     if [ $# -le 0 ]; then
@@ -30,6 +31,10 @@ while :; do
             ;;
 		--cmake-args)
             _CMakeArgs=$(echo $2 | tr -d \")
+            shift
+            ;;
+        --triplet)
+            _VcpkgTriplet=-DVCPKG_TARGET_TRIPLET=$2
             shift
             ;;
 		--submodule)
@@ -81,7 +86,7 @@ _OutputPath=$scriptPath/build/$_Submodule
 
 mkdir -p $_OutputPath
 pushd $_OutputPath
-cmake ../../ -DCMAKE_BUILD_TYPE=$_CMakeBuildType $_CMakeArgs $_CMakeGenerator $_CMakeToolchain $_CMakeIosPlatform $_CMakeEnableBitcode $_CMakeOsxArchitectures $_CMakeSystemProcessor $_CMakeCCompiler $_CMakeCxxCompiler $_CMakeFindRootPathMode
+cmake ../../ -DCMAKE_BUILD_TYPE=$_CMakeBuildType $_VcpkgTriplet $_CMakeArgs $_CMakeGenerator $_CMakeToolchain $_CMakeIosPlatform $_CMakeEnableBitcode $_CMakeOsxArchitectures $_CMakeSystemProcessor $_CMakeCCompiler $_CMakeCxxCompiler $_CMakeFindRootPathMode
 cmake --build . --config $_CMakeBuildType
 popd
 

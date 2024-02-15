@@ -51,7 +51,7 @@ jobs:
             
           - os: ubuntu-latest
             build_target: linux-arm64
-            args: --linux aarch64 --artifact-name build/mojoal/libmojoal.so
+            args: --linux aarch64 --artifact-name build/mojoal/libmojoal.so --triplet arm64-linux
             cmake_args: $CMAKE_ARGS_1
             
           - os: macos-latest
