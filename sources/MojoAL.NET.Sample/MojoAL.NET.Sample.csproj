@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.SDK">
+    <PropertyGroup>
+        <OutputType>exe</OutputType>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+        <TargetFramework>net8.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+    </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="Silk.NET.OpenAL" Version="2.20.0" />
+      <PackageReference Include="Silk.NET.OpenAL.Extensions.Enumeration" Version="2.20.0" />
+      <PackageReference Include="Silk.NET.SDL" Version="2.20.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../MojoAL.NET.Native/MojoAL.NET.Native.csproj" />
+    </ItemGroup>
+</Project>
