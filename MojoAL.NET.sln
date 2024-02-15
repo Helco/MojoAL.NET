@@ -1,0 +1,27 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "sources", "sources", "{01F31620-B100-44B7-BA53-FEA8BE8C37B0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MojoAL.NET.Native", "sources\MojoAL.NET.Native\MojoAL.NET.Native.csproj", "{ECA046EA-B4F3-476C-8998-97D5B0224AD4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ECA046EA-B4F3-476C-8998-97D5B0224AD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECA046EA-B4F3-476C-8998-97D5B0224AD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECA046EA-B4F3-476C-8998-97D5B0224AD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECA046EA-B4F3-476C-8998-97D5B0224AD4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ECA046EA-B4F3-476C-8998-97D5B0224AD4} = {01F31620-B100-44B7-BA53-FEA8BE8C37B0}
+	EndGlobalSection
+EndGlobal
