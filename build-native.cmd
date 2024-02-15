@@ -33,7 +33,7 @@ goto ArgLoop
 :LocateVS
 
 if defined _NDK_DIR (
-  set _CMAKE_PLATFORM_ARGS=-G "MinGW Makefiles" -DANDROID_ABI=%_ANDROID_ABI% -DANDROID_PLATFORM=%_ANDROID_PLATFORM% -DCMAKE_MAKE_PROGRAM="%_NDK_DIR:"=%\prebuilt\windows-x86_64\bin\make.exe" -DCMAKE_TOOLCHAIN_FILE="%_NDK_DIR:"=%\build\cmake\android.toolchain.cmake" -DCMAKE_CXX_FLAGS_RELEASE=-g0
+  set _CMAKE_PLATFORM_ARGS=-G "MinGW Makefiles" -DVCPKG_TARGET_TRIPLET=arm64-android -DANDROID_ABI=%_ANDROID_ABI% -DANDROID_PLATFORM=%_ANDROID_PLATFORM% -DCMAKE_MAKE_PROGRAM="%_NDK_DIR:"=%\prebuilt\windows-x86_64\bin\make.exe" -DCMAKE_TOOLCHAIN_FILE="%_NDK_DIR:"=%\build\cmake\android.toolchain.cmake" -DCMAKE_CXX_FLAGS_RELEASE=-g0
   set _OS_DIR=android
   set _BUILD_ARCH=%_ANDROID_ABI%
 ) else (
