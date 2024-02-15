@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <VersionPrefix>1.21.1</VersionPrefix>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <HasPlatformVersionInfo>false</HasPlatformVersionInfo>
+        <IsPackable>true</IsPackable>
+
+        <PackageId>MojoAL.NET.Native</PackageId>
+        <GitVersion>false</GitVersion>
+        <GitRoot>$(MSBuildThisFileDirectory)/../../MojoAL/</GitRoot>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <NativeLibrary Include="android-arm64-v8a" OutputDir="android-arm64" LibraryName="libmojoal.so" />
+        <NativeLibrary Include="android-x86_64" OutputDir="android-x64" LibraryName="libmojoal.so" />
+
+        <NativeLibrary Include="linux-x64" OutputDir="linux-x64" LibraryName="libmojoal.so" />
+        <NativeLibrary Include="linux-arm64" OutputDir="linux-arm64" LibraryName="libmojoal.so" />
+
+        <NativeLibrary Include="win-x64" OutputDir="win-x64" LibraryName="mojoal.dll" />
+
+        <NativeLibrary Include="ios-arm64" OutputDir="ios-arm64" LibraryName="libmojoal.a" />
+        <NativeLibrary Include="iossimulator-x64" OutputDir="iossimulator-x64" LibraryName="libmojoal.a" />
+
+        <NativeLibrary Include="osx-x64" OutputDir="osx-x64" LibraryName="libmojoal.dylib" />
+        <NativeLibrary Include="osx-arm64" OutputDir="osx-arm64" LibraryName="libmojoal.dylib" />
+    </ItemGroup>
+    <ItemGroup>
+        <_NativeLibrary Include="@(NativeLibrary)">
+            <MyFullPath>$(NativeAssetsPath)/%(Identity)/%(LibraryName)</MyFullPath>
+        </_NativeLibrary>
+    </ItemGroup>
+
+    <ItemGroup>
+        <TfmSpecificPackageFile Include="_._" PackagePath="lib/$(TargetFramework)/_._" Pack="true" />
+            
+        <Content Include="@(_NativeLibrary->'%(MyFullPath)')">
+            <PackagePath>runtimes/%(OutputDir)/native/%(LibraryName)</PackagePath>
+            <CopyToOutputDirectory Condition="Exists('%(MyFullPath)')">PreserveNewest</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <!-- Disabled because CI does not work for these platforms yet
+    <Content Include="$(NativeAssetsPath)/win-arm64/spirv-cross-c-shared.dll" PackagePath="runtimes/win-arm64/native" />
+    <Content Include="$(NativeAssetsPath)/android-armeabi-v7a/libspirv-cross-c-shared.so" PackagePath="runtimes/android-arm/native" />
+    <Content Include="$(NativeAssetsPath)/win-x86/spirv-cross-c-shared.dll" PackagePath="runtimes/win-x86/native" />
+    -->
+
+</Project>

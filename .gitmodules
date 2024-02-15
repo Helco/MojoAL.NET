@@ -1,0 +1,3 @@
+[submodule "MojoAL"]
+	path = MojoAL
+	url = https://github.com/icculus/MojoAL

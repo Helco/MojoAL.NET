@@ -1,0 +1,5 @@
+# MojoAL.NET
+
+This is a .NET bindings library for the MojoAL audio library. 
+
+Most of the bindings infrastructure was copied from the great Spirzza

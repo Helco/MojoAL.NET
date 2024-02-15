@@ -1,0 +1,6 @@
+{
+    "name": "mojoal",
+    "dependencies": [
+        "sdl2"
+    ]
+}
