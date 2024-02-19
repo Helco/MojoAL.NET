@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <VersionPrefix>1.1</VersionPrefix>
+        <VersionPrefix>1.1.1</VersionPrefix>
         <TargetFramework>netstandard2.0</TargetFramework>
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <HasPlatformVersionInfo>false</HasPlatformVersionInfo>
