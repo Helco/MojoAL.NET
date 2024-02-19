@@ -65,6 +65,9 @@ set(mojoal_targets "")
 if(MOJOAL_BUILD_SHARED_LIBS)
     mojoal_create_target(mojoal SHARED mojoal)
     list(APPEND mojoal_targets mojoal)
+
+    #add_executable(testpos MojoAL/tests/testposition.c)
+    #target_link_libraries(testpos PRIVATE SDL2::SDL2 SDL2::SDL2main mojoal)
 endif()
 
 if(MOJOAL_BUILD_STATIC_LIBS)
