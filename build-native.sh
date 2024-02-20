@@ -95,4 +95,7 @@ if [[ $_CombinedStatic != "" ]]; then
     libtool -static -o $_ArtifactName $_CombineStaticSources
 fi
 
+cat /usr/local/share/vcpkg/buildtrees/libcap/build-arm64-linux-dynamic-dbg-out.log
+cat /usr/local/share/vcpkg/buildtrees/libcap/build-arm64-linux-dynamic-dbg-err.log
+
 cp -v $_ArtifactName $_OutDir
