@@ -107,6 +107,8 @@ jobs:
               else
                 ./build-native.sh  ${{ matrix.args }} $MODULE_ARGS_1 --out-dir $OUT_DIR --cmake-args "${{ matrix.cmake_args }}"
               fi
+              cat /usr/local/share/vcpkg/buildtrees/libcap/build-arm64-linux-dynamic-dbg-out.log
+              cat /usr/local/share/vcpkg/buildtrees/libcap/build-arm64-linux-dynamic-dbg-err.log
         shell: bash
         
       - name: List $RUNNER_WORKSPACE
