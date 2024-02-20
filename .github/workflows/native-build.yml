@@ -46,12 +46,12 @@ jobs:
             
           - os: ubuntu-latest
             build_target: linux-x64
-            args: --artifact-name build/mojoal/libmojoal.so
+            args: --artifact-name build/mojoal/libmojoal.so --triplet x64-linux-dynamic
             cmake_args: $CMAKE_ARGS_1
             
           - os: ubuntu-latest
             build_target: linux-arm64
-            args: --linux aarch64 --artifact-name build/mojoal/libmojoal.so --triplet arm64-linux
+            args: --linux aarch64 --artifact-name build/mojoal/libmojoal.so --triplet arm64-linux-dynamic
             cmake_args: $CMAKE_ARGS_1
             
           - os: macos-latest
@@ -92,6 +92,7 @@ jobs:
              sudo apt-get update
              sudo apt-get install gcc-aarch64-linux-gnu
              sudo apt install g++-aarch64-linux-gnu
+             cp toolchains/arm64-linux-dynamic.cmake $VCPKG_INSTALLATION_ROOT/triplets/community/
         shell: bash
         
       - name: Build native libraries
