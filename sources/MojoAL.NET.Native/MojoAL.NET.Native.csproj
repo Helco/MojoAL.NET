@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <VersionPrefix>1.1.2</VersionPrefix>
+        <VersionPrefix>1.1.3</VersionPrefix>
         <TargetFramework>netstandard2.0</TargetFramework>
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <HasPlatformVersionInfo>false</HasPlatformVersionInfo>
@@ -34,7 +34,7 @@
 
     <ItemGroup>
         <TfmSpecificPackageFile Include="_._" PackagePath="lib/$(TargetFramework)/_._" Pack="true" />
-            
+
         <Content Include="@(_NativeLibrary->'%(MyFullPath)')">
             <PackagePath>runtimes/%(OutputDir)/native/%(LibraryName)</PackagePath>
             <CopyToOutputDirectory Condition="Exists('%(MyFullPath)')">PreserveNewest</CopyToOutputDirectory>
