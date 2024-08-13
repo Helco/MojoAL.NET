@@ -9,7 +9,7 @@ jobs:
   native_builds:
     runs-on: ${{ matrix.os }}
     name: ${{ matrix.build_target }} build
-    
+
     strategy:
       fail-fast: false
       matrix:
@@ -18,74 +18,90 @@ jobs:
             build_target: win-x64
             args:     win-x64 --artifact-name build/mojoal/Release/mojoal.dll
             cmake_args: $CMAKE_ARGS_1
-            
+            vcpkg_triplet: x64-windows
+
           #- os: windows-latest
           #  build_target: win-x86
           #  args:     win-x86 --artifact-name build/mojoal/Release/mojoal.dll
           #  cmake_args: $CMAKE_ARGS_1
-            
+
           #- os: windows-latest
           #  build_target: win-arm64
           #  args: win-arm64 --artifact-name build/mojoal/Release/mojoal.dll
           #  cmake_args: $CMAKE_ARGS_1
-            
+
           - os: windows-latest
             build_target: android-arm64-v8a
-            args: --android-abi arm64-v8a --artifact-name build/mojoal/libmojoal.so  --android-ndk '%ANDROID_NDK_HOME%' 
+            args: --android-abi arm64-v8a --artifact-name build/mojoal/libmojoal.so  --android-ndk '%ANDROID_NDK_HOME%'
             cmake_args: $CMAKE_ARGS_1
-            
-          #- os: windows-latest 
+            vcpkg_triplet: arm64-android
+
+          #- os: windows-latest
           #  build_target: android-armeabi-v7a
           #  args: --android-abi armeabi-v7a --artifact-name build/mojoal/libmojoal.so  --android-ndk '%ANDROID_NDK_HOME%'
           #  cmake_args: $CMAKE_ARGS_1
-            
+
           - os: windows-latest
             build_target: android-x86_64
             args: --android-abi x86_64 --artifact-name build/mojoal/libmojoal.so  --android-ndk '%ANDROID_NDK_HOME%'
             cmake_args: $CMAKE_ARGS_1
-            
+            vcpkg_triplet: x64-android
+
           - os: ubuntu-latest
             build_target: linux-x64
             args: --artifact-name build/mojoal/libmojoal.so --triplet x64-linux-dynamic
             cmake_args: $CMAKE_ARGS_1
-            
+            vcpkg_triplet: x64-linux-dynamic
+
           - os: ubuntu-latest
             build_target: linux-arm64
             args: --linux aarch64 --artifact-name build/mojoal/libmojoal.so --triplet arm64-linux-dynamic
             cmake_args: $CMAKE_ARGS_1
-            
+            vcpkg_triplet: arm64-linux-dynamic
+
           - os: macos-latest
             build_target: osx-x64
             args: --osx x86_64 --artifact-name build/mojoal/libmojoal.dylib
             cmake_args: $CMAKE_ARGS_1
+            vcpkg_triplet: x64-osx
 
           - os: macos-latest
             build_target: osx-arm64
             args: --osx arm64 --artifact-name build/mojoal/libmojoal.dylib
             cmake_args: $CMAKE_ARGS_1
-            
+            vcpkg_triplet: arm64-osx
+
           - os: macos-latest
             build_target: ios-arm64
             args: --ios OS64 --artifact-name build/mojoal/Release-iphoneos/libmojoal.a    --combined-static build/mojoal/Release-iphoneos
             cmake_args: -DMOJOAL_BUILD_STATIC_LIBS=ON
-            
-          - os: macos-latest
-            build_target: iossimulator-x64
-            args: --ios SIMULATOR64 --artifact-name build/mojoal/libmojoal.a    --combined-static build/mojoal/Release-iphonesimulator
-            cmake_args: -DMOJOAL_BUILD_STATIC_LIBS=ON
+            vcpkg_triplet: arm64-ios
+
+          #- os: macos-latest
+          #  build_target: iossimulator-x64
+          #  args: --ios SIMULATOR64 --artifact-name build/mojoal/libmojoal.a    --combined-static build/mojoal/Release-iphonesimulator
+          #  cmake_args: -DMOJOAL_BUILD_STATIC_LIBS=ON
+          #  vcpkg_triplet: x64-
 
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
-          
+
       - name: Cache native libraries
         uses: actions/cache@v3
         id: cache-native-libraries
         with:
           path: ${{ env.OUT_DIR }}/
           key: ${{ matrix.build_target }}-${{ hashFiles('.git/modules/submodules/*/refs/heads/*') }}
-        
+
+      - name: Setup VcPkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          runVcpkgInstall: true
+        env:
+          VCPKG_DEFAULT_TRIPLET: ${{ matrix.vcpkg_triplet }}
+
       - name: Get ARM64 toolchain
         if: ${{ matrix.build_target == 'linux-arm64' }}
         run: |
@@ -95,12 +111,12 @@ jobs:
              sudo apt install binutils-aarch64-linux-gnu
              cp toolchains/arm64-linux-dynamic.cmake $VCPKG_INSTALLATION_ROOT/triplets/community/
         shell: bash
-        
+
       - name: Build native libraries
         env:
           MODULE_ARGS_1: --submodule mojoal --build-type Release
           CMAKE_ARGS_1: -DMOJOAL_BUILD_SHARED_LIBS=ON
-          
+
         run:  |
               mkdir -p $OUT_DIR
               if [ "$RUNNER_OS" == "Windows" ]; then
@@ -109,7 +125,7 @@ jobs:
                 ./build-native.sh  ${{ matrix.args }} $MODULE_ARGS_1 --out-dir $OUT_DIR --cmake-args "${{ matrix.cmake_args }}"
               fi
         shell: bash
-        
+
       - name: List $RUNNER_WORKSPACE
         if: false
         run: find $RUNNER_WORKSPACE
@@ -129,31 +145,31 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Download artifacts
         uses: actions/download-artifact@v4
         with:
           path: ${{ env.OUT_DIR }}/
-          
+
       - name: List $RUNNER_WORKSPACE
         if: false
         run: find $RUNNER_WORKSPACE
         shell: bash
-        
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '8.0.x'
-      
+
       - name: Restore
         run: dotnet restore
-        
+
       - name: Build
-        run: dotnet build -c Release --no-restore 
-        
+        run: dotnet build -c Release --no-restore
+
       - name: Test
         run: dotnet test -c Release --no-restore --no-build
-       
+
       - name: Pack
         run: |
           dotnet pack -c Release --no-restore --verbosity normal sources/MojoAL.NET.Native/MojoAL.NET.Native.csproj
@@ -165,7 +181,7 @@ jobs:
           path: artifacts/pkg/Release/*.nupkg
           if-no-files-found: error
 
-      #- name: NuGet Push 
+      #- name: NuGet Push
       #  if: startsWith(github.ref, 'refs/tags/')
       #  working-directory: artifacts/pkg/Release
       #  run: dotnet nuget push "*.nupkg" --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_TOKEN }} --skip-duplicate

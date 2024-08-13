@@ -1,3 +1,6 @@
 [submodule "MojoAL"]
 	path = MojoAL
 	url = https://github.com/icculus/MojoAL
+[submodule "vcpkg"]
+	path = vcpkg
+	url = https://github.com/microsoft/vcpkg
