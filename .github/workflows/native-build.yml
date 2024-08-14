@@ -111,7 +111,7 @@ jobs:
       - name: Setup VcPkg
         uses: lukka/run-vcpkg@v11
         with:
-          runVcpkgInstall: true
+          runVcpkgInstall: false
         env:
           VCPKG_DEFAULT_TRIPLET: ${{ matrix.vcpkg_triplet }}
 
