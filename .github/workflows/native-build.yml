@@ -95,22 +95,25 @@ jobs:
           path: ${{ env.OUT_DIR }}/
           key: ${{ matrix.build_target }}-${{ hashFiles('.git/modules/submodules/*/refs/heads/*') }}
 
+      - name: Get ARM64 toolchain
+        if: ${{ matrix.build_target == 'linux-arm64' }}
+        run: |
+              sudo apt-get update
+              sudo apt-get install gcc-aarch64-linux-gnu
+              sudo apt install g++-aarch64-linux-gnu
+              sudo apt install binutils-aarch64-linux-gnu
+              cp toolchains/arm64-linux-dynamic.cmake vcpkg/triplets/community/
+        shell: bash
+
+      - name: Setup Ninja
+        uses: ashutoshvarma/setup-ninja@master
+
       - name: Setup VcPkg
         uses: lukka/run-vcpkg@v11
         with:
           runVcpkgInstall: true
         env:
           VCPKG_DEFAULT_TRIPLET: ${{ matrix.vcpkg_triplet }}
-
-      - name: Get ARM64 toolchain
-        if: ${{ matrix.build_target == 'linux-arm64' }}
-        run: |
-             sudo apt-get update
-             sudo apt-get install gcc-aarch64-linux-gnu
-             sudo apt install g++-aarch64-linux-gnu
-             sudo apt install binutils-aarch64-linux-gnu
-             cp toolchains/arm64-linux-dynamic.cmake $VCPKG_INSTALLATION_ROOT/triplets/community/
-        shell: bash
 
       - name: Build native libraries
         env:
