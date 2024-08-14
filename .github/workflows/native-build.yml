@@ -119,6 +119,7 @@ jobs:
         env:
           MODULE_ARGS_1: --submodule mojoal --build-type Release
           CMAKE_ARGS_1: -DMOJOAL_BUILD_SHARED_LIBS=ON
+          VCPKG_INSTALLATION_ROOT: ${{ github.workspace }}/vcpkg
 
         run:  |
               mkdir -p $OUT_DIR
